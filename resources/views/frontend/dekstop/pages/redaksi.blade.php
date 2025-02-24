@@ -92,7 +92,7 @@
                             </div>
                             <li>Facebook:</li>
                             <div class="list-nama">
-                                <p>Indopop.id</p>
+                                <p>Automoto.id</p>
                             </div>
                             <li>Tiktok:</li>
                             <div class="list-nama">
@@ -104,7 +104,7 @@
                             </div>
                             <li>Instagram:</li>
                             <div class="list-nama">
-                                <p>@Indopop.id</p>
+                                <p>@Automoto.id</p>
                             </div>
                             <li>Rekening Bank:</li>
                             <div class="list-nama">

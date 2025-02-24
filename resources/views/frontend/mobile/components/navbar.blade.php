@@ -17,7 +17,7 @@
 
         <div class="header-logo--wrap">
             <a href="/">
-                <img src="{{ asset('frontend/logo/logo.svg') }}" width="155" height="24" alt="Indopop.id"
+                <img src="{{ asset('frontend/logo/LOGO_AUTOMOTOWHITEFULL.png') }}" width="155" height="24" alt="Automoto.id"
                     class="logo">
             </a>
         </div>
@@ -120,7 +120,7 @@
                     <ul class="footer-menu">
 
                         <li class="footer-menu--item">
-                            <a href="/visi-misi">Visi & Misi Indopop.id</a>
+                            <a href="/visi-misi">Visi & Misi Automoto.id</a>
                         </li>
                         <li class="footer-menu--item">
                             <a href="/site-map">Sitemap</a>
@@ -129,7 +129,7 @@
                 </div>
             </div>
             <div class="footer-copyright">
-                &copy; 2025 indopop.id - All Rights Reserved.
+                &copy; 2025 Automoto.id - All Rights Reserved.
             </div>
         </footer>
     </div>

@@ -1,15 +1,15 @@
 :root {
     --primary-font: "Inter";
-    --primary-color: #47005e;
+    --primary-color: #e51c24;
     --primary-color-rgb: 71, 0, 94;
     --secondary-color: #6c7a91;
     --secondary-color-rgb: 108, 122, 145;
     --heading-color: inherit;
     --text-color: #182433;
     --text-color-rgb: 24, 36, 51;
-    --link-color: #47005e;
+    --link-color: #e51c24;
     --link-color-rgb: 71, 0, 94;
-    --link-hover-color: #47005e;
+    --link-hover-color: #e51c24;
     --link-hover-color-rgb: 71, 0, 94;
 }
 

@@ -49,7 +49,7 @@
                     <a href="/redaksi">Redaksi</a>
                 </li>
                 <li class="footer-menu--item">
-                    <a href="/visi-misi">Visi & Misi Indopop.id</a>
+                    <a href="/visi-misi">Visi & Misi Automoto.id</a>
                 </li>
                 <li class="footer-menu--item">
                     <a href="/site-map">Sitemap</a>
@@ -57,5 +57,5 @@
             </ul>
         </div>
     </div>
-    <div class="footer-copyright"> &copy; 2025 indopop.id - All Rights Reserved. </div>
+    <div class="footer-copyright"> &copy; 2025 Automoto.id - All Rights Reserved. </div>
 </footer>

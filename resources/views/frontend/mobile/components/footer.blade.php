@@ -54,7 +54,7 @@
             <ul class="footer-menu">
 
                 <li class="footer-menu--item">
-                    <a href="/visi-misi">Visi & Misi Indopop.id</a>
+                    <a href="/visi-misi">Visi & Misi Automoto.id</a>
                 </li>
                 <li class="footer-menu--item">
                     <a href="/site-map">Sitemap</a>
@@ -63,7 +63,7 @@
         </div>
     </div>
     <div class="footer-copyright">
-        &copy; {{ date('Y') }} indopop.id - All Rights Reserved.
+        &copy; {{ date('Y') }} Automoto.id - All Rights Reserved.
     </div>
 
     @include('frontend.mobile.components.ads-1')

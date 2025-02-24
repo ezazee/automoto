@@ -59,7 +59,7 @@
             </button>
         </div>
     </form>
-    <div class="today-news-container" style="position: fixed; margin-top:50px; z-index: 9999;">
+    <div class="today-news-container" style="position: fixed; margin-top:50px; z-index: 9999; top:0;">
         <div class="today-headline">Terpopuler</div>
         <div class="news-marquee-container">
             <div class="news-marquee-text">
