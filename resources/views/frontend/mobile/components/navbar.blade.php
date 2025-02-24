@@ -3,9 +3,10 @@
 
         <div class="header-menu--wrap noselect" id="open-menu">
             <svg id="menu-open" class="menu-open" xmlns="http://www.w3.org/2000/svg" width="28" height="28"
-                fill="currentColor" class="bi bi-list" viewBox="0 0 16 16">
-                <path fill-rule="evenodd"
-                    d="M2.5 12a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5z" />
+                fill="currentColor" class="bi bi-list" viewBox="0 0 24 24">
+                <path
+                    d="M 4 3 C 3.448 3 3 3.448 3 4 L 3 6 C 3 6.552 3.448 7 4 7 L 6 7 C 6.552 7 7 6.552 7 6 L 7 4 C 7 3.448 6.552 3 6 3 L 4 3 z M 11 3 C 10.448 3 10 3.448 10 4 L 10 6 C 10 6.552 10.448 7 11 7 L 13 7 C 13.552 7 14 6.552 14 6 L 14 4 C 14 3.448 13.552 3 13 3 L 11 3 z M 18 3 C 17.448 3 17 3.448 17 4 L 17 6 C 17 6.552 17.448 7 18 7 L 20 7 C 20.552 7 21 6.552 21 6 L 21 4 C 21 3.448 20.552 3 20 3 L 18 3 z M 4 10 C 3.448 10 3 10.448 3 11 L 3 13 C 3 13.552 3.448 14 4 14 L 6 14 C 6.552 14 7 13.552 7 13 L 7 11 C 7 10.448 6.552 10 6 10 L 4 10 z M 11 10 C 10.448 10 10 10.448 10 11 L 10 13 C 10 13.552 10.448 14 11 14 L 13 14 C 13.552 14 14 13.552 14 13 L 14 11 C 14 10.448 13.552 10 13 10 L 11 10 z M 18 10 C 17.448 10 17 10.448 17 11 L 17 13 C 17 13.552 17.448 14 18 14 L 20 14 C 20.552 14 21 13.552 21 13 L 21 11 C 21 10.448 20.552 10 20 10 L 18 10 z M 4 17 C 3.448 17 3 17.448 3 18 L 3 20 C 3 20.552 3.448 21 4 21 L 6 21 C 6.552 21 7 20.552 7 20 L 7 18 C 7 17.448 6.552 17 6 17 L 4 17 z M 11 17 C 10.448 17 10 17.448 10 18 L 10 20 C 10 20.552 10.448 21 11 21 L 13 21 C 13.552 21 14 20.552 14 20 L 14 18 C 14 17.448 13.552 17 13 17 L 11 17 z M 18 17 C 17.448 17 17 17.448 17 18 L 17 20 C 17 20.552 17.448 21 18 21 L 20 21 C 20.552 21 21 20.552 21 20 L 21 18 C 21 17.448 20.552 17 20 17 L 18 17 z">
+                </path>
             </svg>
             <svg id="menu-close" class="menu-close" style="display: none;" xmlns="http://www.w3.org/2000/svg"
                 width="32" height="32" fill="currentColor" class="bi bi-x" viewBox="0 0 16 16">
@@ -16,7 +17,7 @@
 
         <div class="header-logo--wrap">
             <a href="/">
-                <img src="{{ asset('frontend/logo/LOGO_AUTOMOTOWHITEFULL.svg') }}" width="155" height="24" alt="Logo-IndoParent.com"
+                <img src="{{ asset('frontend/logo/logo.svg') }}" width="155" height="24" alt="Indopop.id"
                     class="logo">
             </a>
         </div>
@@ -34,14 +35,6 @@
                 </button>
             </div>
         </div>
-
-    </div>
-
-    <div class="wrap-search">
-        <form action="{{ route('searchResult.dekstop') }}" method="GET">
-            <input type="text" placeholder="Cari berita.." name="q" />
-            <button type="submit">Cari</button>
-        </form>
     </div>
 
     <div id="main-menu" style="display: none;">
@@ -61,13 +54,13 @@
                     <a href="/">Home</a>
                 </li>
                 @foreach ($categories as $item)
-                    <li class="menu-item {{ Request::is('kanal/' . $item->slug) ? 'active' : '' }}">
+                    <li class="menu-item {{ Request::is('category/' . $item->slug) ? 'active' : '' }}">
                         <a href="{{ route('kanal.desktop', ['slug' => $item->slug]) }}"
                             class="">{{ $item->nama_kategori }}</a>
                     </li>
                 @endforeach
                 <li class="menu-item">
-                    <a href="https://www.youtube.com/@Automoto" target="_blank">Video</a>
+                    <a href="https://www.youtube.com/@indopopid" target="_blank">Video</a>
                 </li>
                 <li class="menu-item {{ Request::is('indeks') ? 'active' : '' }}">
                     <a href="/indeks">Indeks</a>
@@ -78,7 +71,7 @@
         <footer>
             <div class="footer-social-media">
                 <div class="social-media-wrap">
-                    <a class="social-media-item" href="https://web.facebook.com/Automoto" target="_blank">
+                    <a class="social-media-item" href="https://web.facebook.com/indopopid" target="_blank">
                         <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor"
                             class="bi bi-facebook" viewBox="0 0 16 16">
                             <path
@@ -100,7 +93,7 @@
                                 d="M8.051 1.999h.089c.822.003 4.987.033 6.11.335a2.01 2.01 0 0 1 1.415 1.42c.101.38.172.883.22 1.402l.01.104.022.26.008.104c.065.914.073 1.77.074 1.957v.075c-.001.194-.01 1.108-.082 2.06l-.008.105-.009.104c-.05.572-.124 1.14-.235 1.558a2.007 2.007 0 0 1-1.415 1.42c-1.16.312-5.569.334-6.18.335h-.142c-.309 0-1.587-.006-2.927-.052l-.17-.006-.087-.004-.171-.007-.171-.007c-1.11-.049-2.167-.128-2.654-.26a2.007 2.007 0 0 1-1.415-1.419c-.111-.417-.185-.986-.235-1.558L.09 9.82l-.008-.104A31.4 31.4 0 0 1 0 7.68v-.123c.002-.215.01-.958.064-1.778l.007-.103.003-.052.008-.104.022-.26.01-.104c.048-.519.119-1.023.22-1.402a2.007 2.007 0 0 1 1.415-1.42c.487-.13 1.544-.21 2.654-.26l.17-.007.172-.006.086-.003.171-.007A99.788 99.788 0 0 1 7.858 2h.193zM6.4 5.209v4.818l4.157-2.408L6.4 5.209z" />
                         </svg>
                     </a>
-                    <a class="social-media-item" href="https://www.instagram.com/Automoto/" target="_blank">
+                    <a class="social-media-item" href="https://www.instagram.com/indopopid/" target="_blank">
                         <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor"
                             class="bi bi-instagram" viewBox="0 0 16 16">
                             <path
@@ -127,7 +120,7 @@
                     <ul class="footer-menu">
 
                         <li class="footer-menu--item">
-                            <a href="/visi-misi">Visi & Misi Automoto</a>
+                            <a href="/visi-misi">Visi & Misi Indopop.id</a>
                         </li>
                         <li class="footer-menu--item">
                             <a href="/site-map">Sitemap</a>
@@ -136,7 +129,51 @@
                 </div>
             </div>
             <div class="footer-copyright">
-                &copy; {{ date('Y') }} Automoto - All Rights Reserved.
+                &copy; 2025 indopop.id - All Rights Reserved.
             </div>
         </footer>
+    </div>
+
+    <nav>
+        <ul class="menu scrollable-menu">
+            <li class="menu-item-scroll {{ Request::is('/') ? 'active' : '' }}">
+                <a href="/">Home</a>
+            </li>
+            @foreach ($categories as $item)
+                <li class="menu-item-scroll {{ Request::is('category/' . $item->slug) ? 'active' : '' }}">
+                    <a href="{{ route('kanal.desktop', ['slug' => $item->slug]) }}"
+                        class="">{{ $item->nama_kategori }}</a>
+                </li>
+            @endforeach
+            <li class="menu-item-scroll">
+                <a href="https://www.youtube.com/@indopopid" target="_blank">Video</a>
+            </li>
+            <li class="menu-item-scroll {{ Request::is('indeks') ? 'active' : '' }}">
+                <a href="/indeks">Indeks</a>
+            </li>
+        </ul>
+    </nav>
+
+    <div class="today-news-container">
+        <div class="today-headline">Terpopuler</div>
+        <div class="news-marquee-container">
+            <div class="news-marquee-text">
+                <ul>
+                    @foreach ($postTerpopuler as $item)
+                        <li><a href="{{ route('detail.desktop', ['slug' => $item->slug]) }}">{{ $item->title }}</a>
+                        </li>
+                    @endforeach
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div class="wrap-search">
+        <form action="{{ route('searchResult.dekstop') }}" method="GET">
+            <input type="text" placeholder="Cari berita.." name="q" />
+            <button type="submit">Cari</button>
+        </form>
+    </div>
+
+
 </header>

@@ -1,4 +1,3 @@
-<script src="{{ asset('frontend/js/main.js') }}"></script>
 <script src="{{ asset('frontend/js/sticky-sidebar.min.js') }}"></script>
 <script src="{{ asset('frontend/js/splide.min.js') }}"></script>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"
@@ -22,7 +21,33 @@
 </script>
 
 <script>
-    document.getElementById("search-button").addEventListener("click", function () {
+    document.getElementById("search-button").addEventListener("click", function() {
         document.getElementById("search-form").classList.toggle("hidden");
+    });
+</script>
+
+<script>
+    $(document).ready(function() {
+        if ($("#sticky-sidebar").length > 0) {
+            $("#sticky-sidebar").stickySidebar({
+                containerSelector: "#content",
+                innerWrapperSelector: ".sidebar__inner",
+                topSpacing: 75,
+                bottomSpacing: 10,
+            });
+        }
+    });
+</script>
+
+<script>
+    document.addEventListener('copy', function(e) {
+        var selection = document.getSelection();
+        if (selection.rangeCount > 0) {
+            var range = selection.getRangeAt(0);
+            var copyText = selection.toString();
+            var source = '\n\nSumber dari Indopop.id: ' + window.location.href;
+            e.clipboardData.setData('text/plain', copyText + source);
+            e.preventDefault();
+        }
     });
 </script>

@@ -86,12 +86,12 @@
             </div>
             <div class="position-relative col-12 col-lg-6 col-xl-8 d-none d-lg-block">
                 <div class="bg-cover bg-white h-100 min-vh-100"
-                    style="background-image: url('{{ asset('backend/images/automoto.png') }}')">
+                    style="background-image: url('{{ asset('backend/images/indopop.id.jpg') }}')">
                 </div>
                 <div class="end-0 bottom-0 position-absolute">
                     <div class="text-white me-5 mb-4">
-                        <h1 class="mb-1">KBN Technologies</h1>
-                        <p>Copyright {{ date('Y') }} © KBN Technologies</p>
+                        <h1 class="mb-1">KBN Digital</h1>
+                        <p>Copyright {{ date('Y') }} © KBN Digital</p>
                     </div>
                 </div>
             </div>

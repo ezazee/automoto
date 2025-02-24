@@ -49,9 +49,6 @@
             <i class="fas fa-cog fa-fw"></i>
         </a>
         <div class="collapse navbar-collapse flex-grow-0" id="nav-buttons">
-            <form id="search-form" class="form-inline my-2 my-lg-0">
-                <input class="form-control mr-sm-2" type="search" id="searchImages" placeholder="Cari File..." aria-label="Search">
-            </form>
             
             <ul class="navbar-nav">
                 <li class="nav-item">
@@ -97,12 +94,11 @@
                     <li class="breadcrumb-item invisible">Home</li>
                 </ol>
             </nav>
-
+            <input type="text" id="search-input" class="form-control mb-3" placeholder="Cari file...">
             <div id="empty" class="d-none">
                 <i class="far fa-folder-open"></i>
                 {{ trans('laravel-filemanager::lfm.message-empty') }}
             </div>
-
             <div id="content"></div>
             <div id="pagination"></div>
 
@@ -299,20 +295,20 @@
     {{-- <script src="{{ asset('vendor/laravel-filemanager/js/script.js') }}"></script> --}}
     <script>
         Dropzone.options.uploadForm = {
-            paramName: "upload[]", // The name that will be used to transfer the file
+            paramName: "upload[]",
             uploadMultiple: false,
             parallelUploads: 5,
             timeout: 0,
             clickable: '#upload-button',
             dictDefaultMessage: lang['message-drop'],
             init: function() {
-                var _this = this; // For the closure
+                var _this = this;
+
                 this.on('success', function(file, response) {
-                    if (response == 'OK') {
-                        loadFolders();
-                    } else {
-                        this.defaultOptions.error(file, response.join('\n'));
-                    }
+                     setTimeout(function() {
+                            console.log("Reloading halaman dalam 3 detik...");
+                            location.reload();
+                        }, 3000);
                 });
             },
             headers: {
@@ -321,25 +317,8 @@
             acceptedFiles: "{{ implode(',', $helper->availableMimeTypes()) }}",
             maxFilesize: ({{ $helper->maxUploadSize() }} / 1000)
         }
+
     </script>
-    <script>
-        document.getElementById("searchImages").addEventListener("keyup", function () {
-            let filter = this.value.toLowerCase();
-            let items = document.querySelectorAll("#content .item_name");
-    
-            items.forEach(function (item) {
-                let text = item.textContent || item.innerText;
-                let parent = item.closest("a"); 
-    
-                if (text.toLowerCase().indexOf(filter) > -1) {
-                    parent.style.display = "";
-                } else {
-                    parent.style.display = "none";
-                }
-            });
-        });
-    </script>
-    
 </body>
 
 </html>

@@ -3,7 +3,7 @@
         <div class="header-container">
             <div class="logo-wrap">
                 <a href="/">
-                    <img alt="Automoto" width="150" height="20" src="{{ asset('frontend/logo/LOGO_AUTOMOTOWHITEFULL.svg') }}" />
+                    <img alt="Indopop.id" width="120" height="30" src="{{ asset('frontend/logo/logo.svg') }}" />
                 </a>
             </div>
             <div class="fr">
@@ -15,11 +15,17 @@
                             </li>
                             @foreach ($categories as $item)
                             <li class="menu-item dropdown">
-                                <a href="{{ route('kanal.desktop', ['slug' => $item->slug]) }}" class="{{ Request::is('kanal/' . $item->slug) ? 'active' : '' }}">{{$item->nama_kategori}}</a>
+                                <a href="{{ route('kanal.desktop', ['slug' => $item->slug]) }}" class="{{ Request::is('category/' . $item->slug) ? 'active' : '' }}">{{$item->nama_kategori}}</a>
+                                {{-- <ul class="dropdown-menu">
+                                    <li><a href="{{ url('/kanal/sub1') }}">Sub Kanal 1</a></li>
+                                    <li><a href="{{ url('/kanal/sub2') }}">Sub Kanal 2</a></li>
+                                    <li><a href="{{ url('/kanal/sub3') }}">Sub Kanal 3</a></li>
+                                    <li><a href="{{ url('/kanal/sub4') }}">Sub Kanal 4</a></li>
+                                </ul> --}}
                             </li>
                             @endforeach
                             <li class="menu-item">
-                                <a href="https://www.youtube.com/@Automoto" target="_blank">Video</a>
+                                <a href="https://www.youtube.com/@indopopid" target="_blank">Video</a>
                             </li>
                             <li class="menu-item">
                                 <a href="{{ url('/indeks') }}"
@@ -41,18 +47,29 @@
             </div>
         </div>
     </div>
-    <div>
-        <form action="{{ route('searchResult.dekstop') }}" method="GET">
-            <div class="wrap-search-form hidden" id="search-form">
-                <input type="text" name="q" class="input-search" placeholder="Cari di sini..." required>
-                <button type="submit" class="button-search">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                        class="bi bi-search" viewBox="0 0 16 16">
-                        <path
-                            d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z" />
-                    </svg>
-                </button>
+    <form action="{{ route('searchResult.dekstop') }}" method="GET">
+        <div class="wrap-search-form hidden" id="search-form">
+            <input type="text" name="q" class="input-search" placeholder="Cari di sini..." required>
+            <button type="submit" class="button-search">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                    class="bi bi-search" viewBox="0 0 16 16">
+                    <path
+                        d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z" />
+                </svg>
+            </button>
+        </div>
+    </form>
+    <div class="today-news-container" style="position: fixed; margin-top:50px; z-index: 9999;">
+        <div class="today-headline">Terpopuler</div>
+        <div class="news-marquee-container">
+            <div class="news-marquee-text">
+                <ul>
+                    @foreach ($postTerpopuler as $item)
+                        <li><a href="{{ route('detail.desktop', ['slug' => $item->slug]) }}">{{ $item->title }}</a>
+                        </li>
+                    @endforeach
+                </ul>
             </div>
-        </form>
+        </div>
     </div>
 </header>

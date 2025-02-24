@@ -6,7 +6,7 @@
                     Copyright {{ date('Y') }} © KBN Digital
                 </div>
                 <div class="order-1 order-lg-2">
-                    Automoto Industries {{ date('Y') }}
+                    Indopop.Id 2025
                 </div>
             </div>
         </div>

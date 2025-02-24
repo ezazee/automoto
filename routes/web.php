@@ -17,6 +17,8 @@ use Spatie\Sitemap\Sitemap;
 use Spatie\Sitemap\Tags\Url;
 use App\Models\Post;
 use App\Models\Categori;
+
+use UniSharp\LaravelFilemanager\Controllers\ItemsController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -100,6 +102,10 @@ Route::middleware(['auth', 'role:Administrator'])->group(function () {
     Route::get('/dashboard/blog/category/create', [CategoryController::class, 'categoryCreate'])->name('category.create');
     Route::post('/dashboard/blog/category/add', [CategoryController::class, 'categoryAdd'])->name('category.add');
     Route::delete('/dashboard/blog/category/delete/{id}', [CategoryController::class, 'categoryDestroy'])->name('category.destroy');
+    Route::post('/dashboard/blog/category/update/{id}', [CategoryController::class, 'categoryUpdate'])->name('category.update');
+
+    // Route::get('/laravel-filemanager/items', [ItemsController::class, 'getItems']);
+
 
     // subcateg
     Route::get('/dashboard/blog/subcateg/edit/{id}', [CategoryController::class, 'SubcategEdit'])->name('subcateg.edit');
@@ -143,13 +149,14 @@ Route::middleware(['auth', 'role:Editor|Administrator'])->group(function () {
     Route::post('/system/profile/update-password', [ProfileController::class, 'updatePassword'])->name('profile.updatePassword');
 
 
-
     Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
+    Route::get('/laravel-filemanager', [SettingsController::class, 'getItems'])->name('getItems.file');
 
     Route::group(['prefix' => 'laravel-filemanager'], function () {
         \UniSharp\LaravelFilemanager\Lfm::routes();
     });
-    Route::get('/laravel-filemanager/search', [DashboardController::class, 'searchLfm'])->name('unisharp.lfm.search');
+
+    // Route::get('/laravel-filemanager/search', [DashboardController::class, 'searchLfm'])->name('unisharp.lfm.search');
 
 });
 
@@ -159,13 +166,13 @@ Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('/spring', [DashboardController::class, 'loginPage'])->name('login');
 Route::post('/authlogin', [LoginController::class, 'authlogin'])->name('authlogin');
 
-Route::get('/tags/{slug}', [HomeController::class, 'byTag'])->name('bytag');
+Route::get('/tag/{slug}', [HomeController::class, 'byTag'])->name('bytag');
 Route::get('/redaksi', [HomeController::class, 'redaksi'])->name('redaksi.desktop');
 Route::get('/kebijakan-privasi', [HomeController::class, 'kebijakanPrivasi'])->name('kebijakan.desktop');
 Route::get('/kode-etik', [HomeController::class, 'kodeEtik'])->name('kodeEtik.desktop');
 Route::get('/visi-misi', [HomeController::class, 'visiMisi'])->name('visiMisi.desktop');
 Route::get('/site-map', [HomeController::class, 'siteMap'])->name('siteMap.desktop');
-Route::get('/kanal/{slug}', [HomeController::class, 'kanal'])->name('kanal.desktop');
+Route::get('/category/{slug}', [HomeController::class, 'kanal'])->name('kanal.desktop');
 Route::get('/indeks', [HomeController::class, 'byIndex'])->name('byIndex.dekstop');
 Route::get('/search-result', [HomeController::class, 'searchResult'])->name('searchResult.dekstop');
 

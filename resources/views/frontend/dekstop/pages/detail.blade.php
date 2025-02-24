@@ -4,7 +4,6 @@
     .article-detail--body img {
         width: 100% !important;
         height: auto !important;
-        margin: 10px 0 !important;
         border-radius: 8px !important;
         box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1) !important;
     }
@@ -16,10 +15,21 @@
         border-radius: 8px !important;
         box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1) !important;
     }
+
+    .article-detail--body i {
+        display: flex ;
+        justify-content: center;
+        padding: 10px;
+        font-style: normal;
+        font-weight: normal;
+        font-size: 12px;
+        line-height: 16px;
+        color: var(--gray-color);
+        background: #f2f2f2;
+    }
+
 </style>
 @section('content')
-    <div class="main-content">
-
         {{-- Ads --}}
         @include('frontend.dekstop.components.ads-1')
 
@@ -44,20 +54,30 @@
                     </div>
 
                     <div class="share-baru-header">
-                        <a href="#">
-                            <img src="{{ asset('frontend/icons/fb.svg') }}" alt="">
+                        <?php $url = urlencode(url()->current()); ?>
+
+                        <a href="https://www.facebook.com/sharer/sharer.php?u={{ $url }}" target="_blank">
+                            <img src="{{ asset('frontend/icons/fb.svg') }}" alt="Facebook">
                         </a>
-                        <a href="#">
-                            <img src="{{ asset('frontend/icons/twitter.svg') }}" alt="">
+
+                        <!-- Twitter -->
+                        <a href="https://twitter.com/intent/tweet?url={{ $url }}" target="_blank">
+                            <img src="{{ asset('frontend/icons/twitter.svg') }}" alt="Twitter">
                         </a>
-                        <a href="#">
-                            <img src="{{ asset('frontend/icons/tele.svg') }}" alt="">
+
+                        <!-- Telegram -->
+                        <a href="https://t.me/share/url?url={{ $url }}" target="_blank">
+                            <img src="{{ asset('frontend/icons/tele.svg') }}" alt="Telegram">
                         </a>
-                        <a href="#">
-                            <img src="{{ asset('frontend/icons/wa.svg') }}" alt="">
+
+                        <!-- WhatsApp -->
+                        <a href="https://api.whatsapp.com/send?text={{ $url }}" target="_blank">
+                            <img src="{{ asset('frontend/icons/wa.svg') }}" alt="WhatsApp">
                         </a>
-                        <a href="#">
-                            <img src="{{ asset('frontend/icons/link.svg') }}" alt="">
+
+                        <!-- Copy Link -->
+                        <a href="javascript:void(0);" onclick="copyToClipboard()">
+                            <img src="{{ asset('frontend/icons/link.svg') }}" alt="Copy Link">
                         </a>
                     </div>
 
@@ -65,17 +85,25 @@
                         <img alt="image" width="660" height="497"
                             src="{{ is_array($post->gambar) ? $post->gambar[0] : $post->gambar }}"
                             class="card-headline-img" />
-
+                    <figcaption>{{ $post->image_caption }}</figcaption>
                     </figure>
                     <div class="article-detail--body">
-                        <p><strong>Automoto</strong> {!! preg_replace_callback(
+                        <p>{!! preg_replace_callback(
                             '/<img[^>]+alt="([^"]*)"[^>]*>/i',
                             function ($matches) {
-                                return $matches[0] . '<br><i>' . htmlspecialchars($matches[1]) . '</i>';
+                                return $matches[0] . '<i>' . htmlspecialchars($matches[1]) . '</i><br>';
                             },
-                            preg_replace('/\[caption[^\]]*\]/is', '', $post->content),
+                            preg_replace_callback(
+                                '/(?:<caption\b[^>]*>|\\[caption[^\]]*\\])(.*?)(?:<\\/caption>|\\[\\/caption\\])/is', 
+                                function ($matches) {
+                                    preg_match_all('/<img[^>]+>/i', $matches[1], $images);
+                                    return implode('', $images[0]); 
+                                },
+                                $post->content
+                            )
                         ) !!}
                         </p>
+                        
                     </div>
                     <div class="article-detail-tag">
                         <span class="label card-headline-no-image-title-detail2">Tag</span>
@@ -87,22 +115,33 @@
 
                     <div class="share-baru-bottom">
                         <span>Share link :</span>
-                        <a href="#">
-                            <img src="{{ asset('frontend/icons/fb.svg') }}" alt="">
+                        <?php $url = urlencode(url()->current()); ?>
+
+                        <a href="https://www.facebook.com/sharer/sharer.php?u={{ $url }}" target="_blank">
+                            <img src="{{ asset('frontend/icons/fb.svg') }}" alt="Facebook">
                         </a>
-                        <a href="#">
-                            <img src="{{ asset('frontend/icons/twitter.svg') }}" alt="">
+
+                        <!-- Twitter -->
+                        <a href="https://twitter.com/intent/tweet?url={{ $url }}" target="_blank">
+                            <img src="{{ asset('frontend/icons/twitter.svg') }}" alt="Twitter">
                         </a>
-                        <a href="#">
-                            <img src="{{ asset('frontend/icons/tele.svg') }}" alt="">
+
+                        <!-- Telegram -->
+                        <a href="https://t.me/share/url?url={{ $url }}" target="_blank">
+                            <img src="{{ asset('frontend/icons/tele.svg') }}" alt="Telegram">
                         </a>
-                        <a href="#">
-                            <img src="{{ asset('frontend/icons/wa.svg') }}" alt="">
+
+                        <!-- WhatsApp -->
+                        <a href="https://api.whatsapp.com/send?text={{ $url }}" target="_blank">
+                            <img src="{{ asset('frontend/icons/wa.svg') }}" alt="WhatsApp">
                         </a>
-                        <a href="#">
-                            <img src="{{ asset('frontend/icons/link.svg') }}" alt="">
+
+                        <!-- Copy Link -->
+                        <a href="javascript:void(0);" onclick="copyToClipboard()">
+                            <img src="{{ asset('frontend/icons/link.svg') }}" alt="Copy Link">
                         </a>
                     </div>
+
                 </article>
 
                 <div class="mt-30">
@@ -136,5 +175,16 @@
             </div>
             @include('frontend.dekstop.components.sidebar')
         </div>
-    </div>
+    <script>
+        function copyToClipboard() {
+        var tempInput = document.createElement("input");
+        tempInput.value = window.location.href;
+        document.body.appendChild(tempInput);
+        tempInput.select();
+        document.execCommand("copy");
+        document.body.removeChild(tempInput);
+        alert("Link copied to clipboard!");
+    }
+
+    </script>
 @endsection

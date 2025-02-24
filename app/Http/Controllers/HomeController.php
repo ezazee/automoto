@@ -27,7 +27,7 @@ class HomeController extends Controller
         ->where('headline', 'yes')
         ->where('status', 'publish')
         ->whereNotIn('id', $usedPostIds)
-        ->latest()
+        ->orderBy('id', 'desc')
         ->take(15)
         ->get();
 
@@ -472,21 +472,25 @@ class HomeController extends Controller
         }
 
         if ($this->agent->isMobile()) {
-            return view('frontend.mobile.pages.bytag',compact('post','postTerkini','postTerpopuler'));
+            return view('frontend.mobile.pages.bytag',compact('post','postTerkini','postTerpopuler', 'tag'));
         } else {
-            return view('frontend.dekstop.pages.bytag',compact('post','postTerkini','postTerpopuler'));
+            return view('frontend.dekstop.pages.bytag',compact('post','postTerkini','postTerpopuler', 'tag'));
         }
     }
 
     public function searchResult(Request $request)
     {
 
-        $query = $request->input('q');
+        $query = $request->input('q', '');
+
+        if (is_array($query)) {
+            $query = implode(' ', $query);
+        }
+
         $posts = Post::with(['kategori', 'user', 'tags'])
             ->where('status', 'publish')
             ->where(function ($q) use ($query) {
                 $q->where('title', 'ILIKE', "%{$query}%")
-                //   ->orWhere('content', 'ILIKE', "%{$query}%")
                   ->orWhereHas('kategori', function ($q) use ($query) {
                       $q->where('nama_kategori', 'ILIKE', "%{$query}%");
                   })

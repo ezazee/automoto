@@ -10,6 +10,10 @@ use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Auth;
 use RealRashid\SweetAlert\Facades\Alert;
 use Carbon\Carbon;
+use Intervention\Image\Facades\Image;
+use Illuminate\Support\Facades\Storage;
+use App\Helpers\ImageResizeHelper;
+
 
 
 class BlogController extends Controller
@@ -17,42 +21,42 @@ class BlogController extends Controller
     public function blogPost(Request $request)
     {
         $query = Post::with('kategori', 'user');
-    
+
         if ($request->has('filter_columns')) {
             foreach ($request->filter_columns as $index => $column) {
                 $operator = $request->filter_operators[$index] ?? 'like';
                 $value = $request->filter_values[$index] ?? '';
-    
+
                 if (!empty($column) && !empty($value)) {
                     if ($column === 'categori') {
                         $query->whereHas('kategori', function ($q) use ($operator, $value) {
                             if ($operator === 'like') {
-                                $value = "%$value%"; 
+                                $value = "%$value%";
                             }
                             $q->where('nama_kategori', $operator, $value);
                         });
                     } elseif ($column === 'author') {
                         $query->whereHas('user', function ($q) use ($operator, $value) {
                             if ($operator === 'like') {
-                                $value = "%$value%"; 
+                                $value = "%$value%";
                             }
                             $q->where('name', $operator, $value);
                         });
                     }else {
                         if ($operator === 'like') {
-                            $value = "%$value%"; 
+                            $value = "%$value%";
                         }
                         $query->where($column, $operator, $value);
                     }
                 }
             }
         }
-    
+
         $post = $query->latest()->paginate(20);
-    
+
         return view('backend.pages.blog.posting.index', compact('post'));
     }
-    
+
     public function editPost($id){
         $post = Post::with('kategori')->findOrFail($id);
         $category = Categori::all();
@@ -72,24 +76,16 @@ class BlogController extends Controller
     }
 
     public function PostAdd(Request $request) {
+        $validatedData = $request->validate([
+            'short_description' => 'nullable|string',
+            'content' => 'required|string',
+            'headline' => 'nullable|string|in:yes,no',
+            'banner_image' => 'required|url',
+        ]);
 
-        // $validatedData = $request->validate([
-        //     'name' => 'required|string|max:255',
-        //     'slug' => 'nullable|string|max:255|unique:posts,slug',
-        //     'description' => 'nullable|string',
-        //     'content' => 'nullable|string',
-        //     'seo_meta.seo_title' => 'nullable|string|max:255',
-        //     'seo_meta.seo_description' => 'nullable|string|max:255',
-        //     'status' => 'required|string|in:published,draft',
-        //     'headline' => 'nullable|string|in:yes,no',
-        //     'categories' => 'required|integer|exists:categories,id',
-        //     'banner_image' => 'nullable|url',
-        //     'tag' => 'nullable|json',
-        // ]);
-    
             $post = Post::create([
                 'title' => $request->input('title'),
-                'slug' => $request->input('title', Str::slug($request->input('title'))),
+                'slug' => Str::slug($request->input('title')),
                 'short_description' => $request->input('short_description'),
                 'image_caption' => $request->input('image_caption'),
                 'content' => $request->input('content'),
@@ -103,27 +99,100 @@ class BlogController extends Controller
                 'gambar' => $request->input('banner_image'),
                 'user_id' => Auth::id(),
             ]);
-            
+
             $tags = json_decode($request->input('tag'), true);
             if ($tags && is_array($tags)) {
                 $tagIds = [];
                 foreach ($tags as $tag) {
                     if (!empty($tag['value'])) {
                         $slug = Str::slug($tag['value']);
-                        
+
                         $tagModel = Tag::firstOrCreate(
                             ['nama_tags' => $tag['value']],
-                            ['slug' => $slug] 
+                            ['slug' => $slug]
                         );
                         $tagIds[] = $tagModel->id;
                     }
                 }
-            
+
                 $post->tags()->sync($tagIds);
             }
         Alert::success('Success', 'Post added successfully!!');
         return redirect()->back()->with('success', 'post Added successfully.');
     }
+
+    // NEW
+    // public function PostAdd(Request $request)
+    // {
+    //     $request->validate([
+    //         'title' => 'required|string|max:255',
+    //         'slug' => 'nullable|string|max:255|unique:posts,slug',
+    //         'short_description' => 'nullable|string',
+    //         'content' => 'required|string',
+    //         'headline' => 'nullable|string|in:yes,no',
+    //         'categories' => 'required|integer|exists:categories,id',
+    //         'banner_image' => 'required|image|mimes:jpeg,png,jpg|max:2048',
+    //         'tag' => 'required|json',
+    //     ]);
+
+    //     if ($request->hasFile('banner_image')) {
+    //         $image = $request->file('banner_image');
+    //         $filename = time() . '.' . $image->getClientOriginalExtension();
+    //         $thumbFilename = time() . '_thumb.' . $image->getClientOriginalExtension();
+
+    //         $filePath = $image->getRealPath();
+    //         if (ImageResizeHelper::isDuplicateFile($filePath, 'public/gambar')) {
+    //             return redirect()->back()->with('error', 'File gambar sudah ada di sistem.');
+    //         }
+
+    //         $imagePaths = ImageResizeHelper::resizeImage($image, $filename, $thumbFilename);
+
+    //         if (isset($imagePaths['error'])) {
+    //             return redirect()->back()->with('error', $imagePaths['error']);
+    //         }
+    //     } else {
+    //         return redirect()->back()->with('error', 'Gambar wajib diunggah.');
+    //     }
+
+    //     $post = Post::create([
+    //         'title' => $request->input('title'),
+    //         'slug' => $request->input('slug', Str::slug($request->input('title'))),
+    //         'short_description' => $request->input('short_description'),
+    //         'image_caption' => $request->input('image_caption'),
+    //         'content' => $request->input('content'),
+    //         'keyword' => $request->input('seo_meta.seo_title'),
+    //         'description' => $request->input('seo_meta.seo_description'),
+    //         'start_date' => \Carbon\Carbon::parse($request->input('scheduled_date'))->format('Y-m-d'),
+    //         'start_time' => \Carbon\Carbon::parse($request->input('scheduled_time'))->format('H:i'),
+    //         'status' => $request->input('status'),
+    //         'headline' => $request->input('headline', 'no'),
+    //         'kategori_id' => $request->input('categories'),
+    //         'gambar' => 'storage/gambar/' . $filename,
+    //         'thumbs' => 'storage/photos/shares' . $thumbFilename,
+    //         'user_id' => Auth::id(),
+    //     ]);
+
+    //     $tags = json_decode($request->input('tag'), true);
+    //     if ($tags && is_array($tags)) {
+    //         $tagIds = [];
+    //         foreach ($tags as $tag) {
+    //             if (!empty($tag['value'])) {
+    //                 $slug = Str::slug($tag['value']);
+
+    //                 $tagModel = Tag::firstOrCreate(
+    //                     ['nama_tags' => $tag['value']],
+    //                     ['slug' => $slug]
+    //                 );
+    //                 $tagIds[] = $tagModel->id;
+    //             }
+    //         }
+
+    //         $post->tags()->sync($tagIds);
+    //     }
+
+    //     Alert::success('Success', 'Post added successfully!!');
+    //     return redirect()->back()->with('success', 'Post added successfully.');
+    // }
 
 
     public function PostUpdate(Request $request, $id) {
@@ -144,14 +213,14 @@ class BlogController extends Controller
             'kategori_id' => $request->input('categories'),
             'gambar' => $request->input('banner_image'),
         ]);
-    
+
         $tags = json_decode($request->input('tag'), true);
         if ($tags && is_array($tags)) {
             $tagIds = [];
             foreach ($tags as $tag) {
                 if (!empty($tag['value'])) {
                     $slug = Str::slug($tag['value']);
-                    
+
                     $tagModel = Tag::firstOrCreate(
                         ['nama_tags' => $tag['value']],
                         ['slug' => $slug]
@@ -159,14 +228,14 @@ class BlogController extends Controller
                     $tagIds[] = $tagModel->id;
                 }
             }
-    
+
             $post->tags()->sync($tagIds);
         }
-    
+
         Alert::success('Success', 'Post updated successfully!!');
         return redirect()->back()->with('success', 'post Added successfully.');
     }
-    
+
 
     public function deletePost($id)
     {
@@ -175,5 +244,5 @@ class BlogController extends Controller
         Alert::error('Delete', 'Post Deleted!!');
         return redirect()->route('blog.post')->with('success', 'Post deleted successfully.');
     }
-    
+
 }
